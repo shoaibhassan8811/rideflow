@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RideFlow Secure Login</title>
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<style>
+
+:root{
+--card:#14141c;
+--line:#2a2a38;
+--purple:#8b5cf6;
+--purple2:#a855f7;
+--blue:#3b82f6;
+--green:#22c55e;
+--text:#ffffff;
+--muted:#9ca3af;
+}
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+}
+
+html,body{
+height:100%;
+}
+
+body{
+font-family:Segoe UI,sans-serif;
+background:
+radial-gradient(circle at 15% 20%, rgba(139,92,246,.20), transparent 28%),
+radial-gradient(circle at 85% 75%, rgba(59,130,246,.18), transparent 30%),
+linear-gradient(135deg,#08080c,#11111a,#181825);
+display:flex;
+justify-content:center;
+align-items:center;
+padding:30px;
+overflow:hidden;
+color:white;
+}
+
+/* Animated background dots */
+
+body::before{
+content:"";
+position:absolute;
+width:700px;
+height:700px;
+border-radius:50%;
+border:1px solid rgba(255,255,255,.03);
+animation:spin 28s linear infinite;
+}
+
+body::after{
+content:"";
+position:absolute;
+width:520px;
+height:520px;
+border-radius:50%;
+border:1px solid rgba(255,255,255,.03);
+animation:spin2 20s linear infinite;
+}
+
+@keyframes spin{
+from{transform:rotate(0deg);}
+to{transform:rotate(360deg);}
+}
+
+@keyframes spin2{
+from{transform:rotate(360deg);}
+to{transform:rotate(0deg);}
+}
+
+/* Main Wrapper */
+
+.wrapper{
+position:relative;
+z-index:2;
+width:100%;
+max-width:1050px;
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:28px;
+align-items:center;
+}
+
+/* Left panel */
+
+.hero{
+padding:30px;
+}
+
+.badge-box{
+display:inline-block;
+padding:10px 18px;
+border-radius:999px;
+background:rgba(255,255,255,.05);
+border:1px solid rgba(255,255,255,.08);
+font-size:13px;
+color:#d1d5db;
+margin-bottom:20px;
+}
+
+.hero h1{
+font-size:54px;
+line-height:1.1;
+font-weight:700;
+margin-bottom:16px;
+}
+
+.hero h1 span{
+color:#c084fc;
+}
+
+.hero p{
+font-size:17px;
+color:var(--muted);
+max-width:480px;
+margin-bottom:30px;
+}
+
+.feature{
+display:flex;
+gap:14px;
+margin-bottom:18px;
+align-items:center;
+}
+
+.icon{
+width:42px;
+height:42px;
+border-radius:14px;
+background:rgba(139,92,246,.14);
+display:flex;
+align-items:center;
+justify-content:center;
+font-size:18px;
+}
+
+.feature-text small{
+color:var(--muted);
+display:block;
+}
+
+/* Login card */
+
+.login-card{
+padding:38px;
+border-radius:30px;
+background:rgba(20,20,28,.92);
+border:1px solid rgba(255,255,255,.08);
+backdrop-filter:blur(18px);
+box-shadow:0 25px 60px rgba(0,0,0,.35);
+}
+
+.logo{
+font-size:34px;
+font-weight:700;
+text-align:center;
+color:var(--purple2);
+margin-bottom:8px;
+}
+
+.sub{
+text-align:center;
+font-size:14px;
+color:var(--muted);
+margin-bottom:28px;
+}
+
+.role-tabs{
+display:flex;
+gap:10px;
+margin-bottom:20px;
+}
+
+.role-btn{
+flex:1;
+padding:11px;
+border-radius:14px;
+border:1px solid var(--line);
+background:#0f0f15;
+color:#cbd5e1;
+cursor:pointer;
+transition:.25s;
+font-size:14px;
+}
+
+.role-btn:hover,
+.role-btn.active{
+background:linear-gradient(90deg,#8b5cf6,#6d28d9);
+border-color:#8b5cf6;
+color:white;
+}
+
+.form-label{
+font-size:14px;
+margin-bottom:8px;
+}
+
+.form-control{
+background:#0f0f15 !important;
+border:1px solid var(--line) !important;
+color:white !important;
+padding:14px 16px !important;
+border-radius:14px !important;
+min-height:54px;
+}
+
+.form-control::placeholder{
+color:#8b8b95 !important;
+}
+
+.form-control:focus{
+border-color:#8b5cf6 !important;
+box-shadow:0 0 0 .20rem rgba(139,92,246,.18) !important;
+}
+
+.password-wrap{
+position:relative;
+}
+
+.toggle-pass{
+position:absolute;
+right:14px;
+top:50%;
+transform:translateY(-50%);
+cursor:pointer;
+font-size:13px;
+color:#a78bfa;
+}
+
+.login-btn{
+width:100%;
+padding:14px;
+border:none;
+border-radius:14px;
+font-size:16px;
+font-weight:600;
+color:white;
+margin-top:8px;
+background:linear-gradient(90deg,#8b5cf6,#6d28d9);
+transition:.25s;
+}
+
+.login-btn:hover{
+transform:translateY(-2px);
+box-shadow:0 14px 24px rgba(139,92,246,.25);
+}
+
+.extra{
+display:flex;
+justify-content:space-between;
+margin-top:14px;
+font-size:13px;
+color:var(--muted);
+}
+
+.extra a{
+color:#c084fc;
+text-decoration:none;
+}
+
+.demo-box{
+margin-top:22px;
+padding:16px;
+border-radius:18px;
+background:rgba(255,255,255,.03);
+border:1px solid rgba(255,255,255,.05);
+font-size:13px;
+line-height:1.8;
+color:#d1d5db;
+}
+
+/* Responsive */
+
+@media(max-width:992px){
+.wrapper{
+grid-template-columns:1fr;
+max-width:520px;
+}
+.hero{
+display:none;
+}
+}
+
+@media(max-width:576px){
+body{padding:16px;}
+.login-card{padding:26px 20px;}
+.logo{font-size:30px;}
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="wrapper">
+
+<!-- LEFT SIDE -->
+<div class="hero">
+
+<div class="badge-box">Premium Ride Management Platform</div>
+
+<h1>Drive smarter with <span>RideFlow</span></h1>
+
+<p>
+Manage riders, drivers, trips, payments and analytics through one powerful dashboard built for modern transport systems.
+</p>
+
+<div class="feature">
+<div class="icon">⚡</div>
+<div class="feature-text">
+<div>Fast Authentication</div>
+<small>Secure role-based access</small>
+</div>
+</div>
+
+<div class="feature">
+<div class="icon">📊</div>
+<div class="feature-text">
+<div>Live Analytics</div>
+<small>Track revenue and rides instantly</small>
+</div>
+</div>
+
+<div class="feature">
+<div class="icon">🚗</div>
+<div class="feature-text">
+<div>Smart Operations</div>
+<small>Drivers, riders & admin in one system</small>
+</div>
+</div>
+
+</div>
+
+<!-- RIGHT SIDE -->
+<div class="login-card">
+
+<div class="logo">RideFlow</div>
+<div class="sub">Secure Access Portal</div>
+
+<div class="role-tabs">
+<button type="button" class="role-btn active" onclick="setRole('rider',this)">Rider</button>
+<button type="button" class="role-btn" onclick="setRole('driver',this)">Driver</button>
+<button type="button" class="role-btn" onclick="setRole('admin',this)">Admin</button>
+</div>
+
+<form method="POST" action="/login">
+
+<input type="hidden" name="role" id="roleInput" value="rider">
+
+<label class="form-label">Email Address</label>
+<input type="email" class="form-control mb-3" name="email" placeholder="Enter your email" required>
+
+<label class="form-label">Password</label>
+
+<div class="password-wrap mb-3">
+<input type="password" id="password" class="form-control" name="password" placeholder="Enter password" required>
+<span class="toggle-pass" onclick="togglePassword()">SHOW</span>
+</div>
+
+<button type="submit" class="login-btn">Login Securely</button>
+
+</form>
+
+<div class="extra">
+<span>Encrypted Session</span>
+<a href="#">Forgot Password?</a>
+</div>
+
+<div class="demo-box">
+<b>Demo Accounts:</b><br>
+admin@rideflow.pk → Admin<br>
+kamran@driver.pk → Driver<br>
+ali@rider.pk → Rider
+</div>
+
+</div>
+
+</div>
+
+<script>
+
+function setRole(role,btn){
+document.getElementById("roleInput").value = role;
+
+document.querySelectorAll(".role-btn").forEach(b=>{
+b.classList.remove("active");
+});
+
+btn.classList.add("active");
+}
+
+function togglePassword(){
+let pass = document.getElementById("password");
+
+if(pass.type==="password"){
+pass.type="text";
+event.target.innerText="HIDE";
+}else{
+pass.type="password";
+event.target.innerText="SHOW";
+}
+}
+
+</script>
+
+</body>
+</html>

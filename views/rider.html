@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RideFlow Rider Dashboard</title>
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<style>
+
+:root{
+--bg:#0b0b0f;
+--card:#14141c;
+--card2:#1a1a24;
+--line:#2a2a38;
+--purple:#8b5cf6;
+--purple2:#a855f7;
+--green:#22c55e;
+--blue:#3b82f6;
+--red:#ef4444;
+--text:#ffffff;
+--muted:#9ca3af;
+}
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+}
+
+body{
+font-family:Segoe UI,sans-serif;
+background:linear-gradient(135deg,#08080c,#11111a,#181825);
+color:white;
+overflow-x:hidden;
+}
+
+.sidebar{
+position:fixed;
+left:0;
+top:0;
+width:250px;
+height:100vh;
+background:rgba(20,20,28,.96);
+border-right:1px solid var(--line);
+padding:28px 18px;
+}
+
+.brand{
+font-size:28px;
+font-weight:700;
+color:var(--purple2);
+margin-bottom:35px;
+}
+
+.nav-item{
+display:block;
+padding:14px 16px;
+margin-bottom:10px;
+border-radius:14px;
+text-decoration:none;
+color:#d1d5db;
+transition:.25s;
+}
+
+.nav-item:hover,
+.nav-item.active{
+background:linear-gradient(90deg,var(--purple),#6d28d9);
+transform:translateX(4px);
+color:white;
+}
+
+.main{
+margin-left:250px;
+padding:30px;
+}
+
+.topbar{
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-bottom:28px;
+}
+
+.profile{
+background:var(--card);
+padding:10px 18px;
+border-radius:16px;
+border:1px solid var(--line);
+}
+
+.card-box{
+background:linear-gradient(180deg,var(--card),var(--card2));
+border:1px solid var(--line);
+border-radius:22px;
+padding:24px;
+height:100%;
+}
+
+input,select{
+background:#0f0f15 !important;
+border:1px solid var(--line) !important;
+color:white !important;
+padding:14px !important;
+border-radius:14px !important;
+}
+
+input::placeholder{
+color:#8b8b95 !important;
+}
+
+select option{
+background:#111;
+}
+
+.btn-book{
+width:100%;
+padding:14px;
+border:none;
+border-radius:14px;
+background:linear-gradient(90deg,var(--purple),#6d28d9);
+color:white;
+font-weight:600;
+transition:.25s;
+}
+
+.btn-book:hover{
+transform:translateY(-2px);
+}
+
+.stat-title{
+color:var(--muted);
+font-size:14px;
+}
+
+.stat-value{
+font-size:34px;
+font-weight:700;
+margin-top:10px;
+color:#22c55e;
+}
+
+/* Table Styling */
+
+.custom-table{
+width:100%;
+color:white;
+border-collapse:collapse;
+}
+
+.custom-table thead{
+background:rgba(255,255,255,.02);
+}
+
+.custom-table th{
+padding:18px 16px;
+font-size:14px;
+font-weight:600;
+color:#9ca3af;
+border-bottom:1px solid rgba(255,255,255,.08);
+}
+
+.custom-table td{
+padding:22px 16px;
+font-size:18px;
+border-bottom:1px solid rgba(255,255,255,.04);
+}
+
+.custom-table tbody tr:hover{
+background:rgba(255,255,255,.02);
+transition:.2s;
+}
+
+.status-badge{
+padding:10px 18px;
+border-radius:999px;
+font-size:14px;
+font-weight:600;
+display:inline-block;
+min-width:130px;
+text-align:center;
+}
+
+.completed{
+background:rgba(34,197,94,.15);
+color:#4ade80;
+}
+
+.progress{
+background:rgba(59,130,246,.15);
+color:#60a5fa;
+}
+
+.cancelled{
+background:rgba(239,68,68,.15);
+color:#f87171;
+}
+
+@media(max-width:992px){
+.sidebar{
+display:none;
+}
+.main{
+margin-left:0;
+}
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="sidebar">
+
+<div class="brand">RideFlow</div>
+
+<a href="/rider" class="nav-item active">🏠 Dashboard</a>
+<a href="/rider" class="nav-item">🚕 Book Ride</a>
+<a href="/rider" class="nav-item">📜 Ride History</a>
+<a href="/rider" class="nav-item">💰 Wallet</a>
+<a href="/" class="nav-item">🚪 Logout</a>
+
+</div>
+
+<div class="main">
+
+<div class="topbar">
+<h2>Rider Dashboard</h2>
+<div class="profile">Welcome Rider</div>
+</div>
+
+<div class="row g-4">
+
+<div class="col-lg-8">
+<div class="card-box">
+
+<h4 class="mb-4">Book a Ride</h4>
+
+<input type="text" class="form-control mb-3" placeholder="Pickup Location">
+
+<input type="text" class="form-control mb-3" placeholder="Dropoff Location">
+
+<select class="form-control mb-3">
+<option>Economy</option>
+<option>Premium</option>
+<option>Bike</option>
+</select>
+
+<button class="btn-book">Request Ride</button>
+
+</div>
+</div>
+
+<div class="col-lg-4">
+<div class="card-box">
+
+<div class="stat-title">Wallet Balance</div>
+<div class="stat-value">PKR 2,450</div>
+
+</div>
+</div>
+
+</div>
+
+<div class="card-box mt-4">
+
+<h3 class="mb-4 fw-bold">Recent Ride Activity</h3>
+
+<table class="custom-table">
+
+<thead>
+<tr>
+<th>ID</th>
+<th>Driver</th>
+<th>Vehicle</th>
+<th>Status</th>
+<th>Fare</th>
+</tr>
+</thead>
+
+<tbody>
+
+<tr>
+<td>#1042</td>
+<td>Kamran</td>
+<td>Corolla</td>
+<td><span class="status-badge completed">Completed</span></td>
+<td>PKR 420</td>
+</tr>
+
+<tr>
+<td>#1043</td>
+<td>Usman</td>
+<td>Cultus</td>
+<td><span class="status-badge progress">In Progress</span></td>
+<td>PKR 310</td>
+</tr>
+
+<tr>
+<td>#1044</td>
+<td>Hamza</td>
+<td>Bike</td>
+<td><span class="status-badge cancelled">Cancelled</span></td>
+<td>--</td>
+</tr>
+
+<tr>
+<td>#1045</td>
+<td>Junaid</td>
+<td>Civic</td>
+<td><span class="status-badge completed">Completed</span></td>
+<td>PKR 590</td>
+</tr>
+
+</tbody>
+
+</table>
+
+</div>
+
+</div>
+
+</body>
+</html>

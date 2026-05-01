@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RideFlow Reports & Analytics</title>
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<style>
+
+:root{
+--card:#14141c;
+--card2:#1a1a24;
+--line:#2a2a38;
+--purple:#8b5cf6;
+--purple2:#a855f7;
+--blue:#3b82f6;
+--green:#22c55e;
+--red:#ef4444;
+--text:#ffffff;
+--muted:#9ca3af;
+}
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+}
+
+body{
+font-family:Segoe UI,sans-serif;
+background:linear-gradient(135deg,#08080c,#11111a,#181825);
+color:white;
+overflow-x:hidden;
+}
+
+.sidebar{
+position:fixed;
+top:0;
+left:0;
+width:250px;
+height:100vh;
+background:rgba(20,20,28,.96);
+border-right:1px solid var(--line);
+padding:28px 18px;
+}
+
+.brand{
+font-size:28px;
+font-weight:700;
+color:var(--purple2);
+margin-bottom:35px;
+}
+
+.nav-item{
+display:block;
+padding:14px 16px;
+margin-bottom:10px;
+border-radius:14px;
+text-decoration:none;
+color:#d1d5db;
+transition:.25s;
+}
+
+.nav-item:hover,
+.nav-item.active{
+background:linear-gradient(90deg,var(--purple),#6d28d9);
+transform:translateX(4px);
+color:white;
+}
+
+.main{
+margin-left:250px;
+padding:30px;
+}
+
+.topbar{
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-bottom:28px;
+flex-wrap:wrap;
+gap:15px;
+}
+
+.profile{
+background:var(--card);
+padding:10px 18px;
+border-radius:16px;
+border:1px solid var(--line);
+}
+
+.card-box{
+background:linear-gradient(180deg,var(--card),var(--card2));
+border:1px solid var(--line);
+border-radius:22px;
+padding:24px;
+height:100%;
+}
+
+.label{
+font-size:14px;
+color:var(--muted);
+}
+
+.value{
+font-size:32px;
+font-weight:700;
+margin-top:10px;
+}
+
+.chart{
+display:flex;
+align-items:flex-end;
+gap:14px;
+height:240px;
+margin-top:18px;
+}
+
+.bar{
+flex:1;
+border-radius:12px 12px 0 0;
+background:linear-gradient(180deg,var(--purple2),var(--blue));
+cursor:pointer;
+transition:.25s;
+position:relative;
+}
+
+.bar:hover{
+transform:scaleY(1.05);
+filter:brightness(1.15);
+}
+
+.bar span{
+position:absolute;
+bottom:-28px;
+left:50%;
+transform:translateX(-50%);
+font-size:13px;
+color:var(--muted);
+}
+
+.custom-table{
+width:100%;
+border-collapse:collapse;
+color:white;
+}
+
+.custom-table th{
+padding:16px;
+font-size:14px;
+color:var(--muted);
+border-bottom:1px solid rgba(255,255,255,.08);
+}
+
+.custom-table td{
+padding:18px 16px;
+font-size:16px;
+border-bottom:1px solid rgba(255,255,255,.04);
+}
+
+.custom-table tr:hover{
+background:rgba(255,255,255,.02);
+}
+
+.badge-status{
+padding:8px 14px;
+border-radius:999px;
+font-size:12px;
+font-weight:600;
+}
+
+.green{
+background:rgba(34,197,94,.15);
+color:#4ade80;
+}
+
+.blue{
+background:rgba(59,130,246,.15);
+color:#60a5fa;
+}
+
+.red{
+background:rgba(239,68,68,.15);
+color:#f87171;
+}
+
+@media(max-width:992px){
+.sidebar{
+display:none;
+}
+.main{
+margin-left:0;
+padding:20px;
+}
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="sidebar">
+
+<div class="brand">RideFlow</div>
+
+<a href="/admin" class="nav-item">🏠 Dashboard</a>
+<a href="/reports" class="nav-item active">📈 Reports</a>
+<a href="/users" class="nav-item">👤 Users</a>
+<a href="/driver" class="nav-item">🚗 Drivers</a>
+<a href="/reports" class="nav-item">💳 Payments</a>
+<a href="/" class="nav-item">🚪 Logout</a>
+
+</div>
+
+<div class="main">
+
+<div class="topbar">
+<h2>Reports & Analytics</h2>
+<div class="profile">Admin View</div>
+</div>
+
+<div class="row g-4">
+
+<div class="col-md-3">
+<div class="card-box">
+<div class="label">Total Revenue</div>
+<div class="value">PKR <%= stats.revenueToday %></div>
+</div>
+</div>
+
+<div class="col-md-3">
+<div class="card-box">
+<div class="label">Completed Rides</div>
+<div class="value"><%= stats.completedRides %></div>
+</div>
+</div>
+
+<div class="col-md-3">
+<div class="card-box">
+<div class="label">Active Drivers</div>
+<div class="value"><%= stats.activeDrivers %></div>
+</div>
+</div>
+
+<div class="col-md-3">
+<div class="card-box">
+<div class="label">Refunds</div>
+<div class="value"><%= stats.refunds %></div>
+</div>
+</div>
+
+</div>
+
+<div class="row g-4 mt-1">
+
+<div class="col-lg-8">
+<div class="card-box">
+
+<h4>Weekly Revenue</h4>
+
+<div class="chart">
+
+<div class="bar" style="height:45%;"><span>Mon</span></div>
+<div class="bar" style="height:62%;"><span>Tue</span></div>
+<div class="bar" style="height:55%;"><span>Wed</span></div>
+<div class="bar" style="height:80%;"><span>Thu</span></div>
+<div class="bar" style="height:72%;"><span>Fri</span></div>
+<div class="bar" style="height:95%;"><span>Sat</span></div>
+<div class="bar" style="height:67%;"><span>Sun</span></div>
+
+</div>
+
+</div>
+</div>
+
+<div class="col-lg-4">
+<div class="card-box">
+
+<h4 class="mb-4">City Performance</h4>
+
+<p>Lahore</p>
+<div class="progress mb-3" style="height:10px;">
+<div class="progress-bar bg-success" style="width:78%"></div>
+</div>
+
+<p>Islamabad</p>
+<div class="progress mb-3" style="height:10px;">
+<div class="progress-bar bg-primary" style="width:61%"></div>
+</div>
+
+<p>Rawalpindi</p>
+<div class="progress mb-3" style="height:10px;">
+<div class="progress-bar bg-danger" style="width:48%"></div>
+</div>
+
+</div>
+</div>
+
+</div>
+
+<div class="card-box mt-4">
+
+<h4 class="mb-4">Top Drivers Performance</h4>
+
+<table class="custom-table">
+
+<thead>
+<tr>
+<th>Driver</th>
+<th>Trips</th>
+<th>Rating</th>
+<th>Status</th>
+</tr>
+</thead>
+
+<tbody>
+
+<tr>
+<td>Kamran</td>
+<td>122</td>
+<td>4.9 ★</td>
+<td><span class="badge-status green">Excellent</span></td>
+</tr>
+
+<tr>
+<td>Usman</td>
+<td>108</td>
+<td>4.7 ★</td>
+<td><span class="badge-status blue">Active</span></td>
+</tr>
+
+<tr>
+<td>Hamza</td>
+<td>72</td>
+<td>3.2 ★</td>
+<td><span class="badge-status red">Review</span></td>
+</tr>
+
+</tbody>
+
+</table>
+
+</div>
+
+</div>
+
+</body>
+</html>
